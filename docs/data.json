@@ -1,0 +1,193 @@
+{
+  "ctfs": [
+    {
+      "slug": "nahamcon-2024",
+      "name": "NahamCon CTF 2024",
+      "date": "2024-05-23T00:00:00.000Z",
+      "url": "https://ctf.nahamcon.com",
+      "results": [
+        {
+          "team": "Myriad Alpha",
+          "rank": 8,
+          "points": 12400
+        },
+        {
+          "team": "Myriad Gamma",
+          "rank": 35,
+          "points": 7800
+        },
+        {
+          "team": "Myriad Delta",
+          "rank": 120,
+          "points": 3500
+        }
+      ]
+    },
+    {
+      "slug": "picoctf-2024",
+      "name": "picoCTF 2024",
+      "date": "2024-03-15T00:00:00.000Z",
+      "url": "https://picoctf.org",
+      "results": [
+        {
+          "team": "Myriad Alpha",
+          "rank": 15,
+          "points": 4500
+        },
+        {
+          "team": "Myriad Beta",
+          "rank": 42,
+          "points": 3200
+        },
+        {
+          "team": "Myriad Gamma",
+          "rank": 78,
+          "points": 2100
+        }
+      ]
+    },
+    {
+      "slug": "htb-cyber-apocalypse-2024",
+      "name": "HTB Cyber Apocalypse 2024",
+      "date": "2024-03-09T00:00:00.000Z",
+      "url": "https://ctf.hackthebox.com",
+      "results": [
+        {
+          "team": "Myriad Alpha",
+          "rank": 28,
+          "points": 8750
+        },
+        {
+          "team": "Myriad Beta",
+          "rank": 56,
+          "points": 6400
+        }
+      ]
+    }
+  ],
+  "teams": {
+    "Myriad Alpha": {
+      "id": "alpha",
+      "name": "Myriad Alpha",
+      "members": [
+        "alice",
+        "bob",
+        "charlie"
+      ],
+      "results": [
+        {
+          "ctfSlug": "nahamcon-2024",
+          "ctfName": "NahamCon CTF 2024",
+          "date": "2024-05-23T00:00:00.000Z",
+          "url": "https://ctf.nahamcon.com",
+          "rank": 8,
+          "points": 12400
+        },
+        {
+          "ctfSlug": "picoctf-2024",
+          "ctfName": "picoCTF 2024",
+          "date": "2024-03-15T00:00:00.000Z",
+          "url": "https://picoctf.org",
+          "rank": 15,
+          "points": 4500
+        },
+        {
+          "ctfSlug": "htb-cyber-apocalypse-2024",
+          "ctfName": "HTB Cyber Apocalypse 2024",
+          "date": "2024-03-09T00:00:00.000Z",
+          "url": "https://ctf.hackthebox.com",
+          "rank": 28,
+          "points": 8750
+        }
+      ],
+      "totalPoints": 25650,
+      "bestRank": 8,
+      "ctfCount": 3,
+      "avgRank": 17
+    },
+    "Myriad Gamma": {
+      "id": "gamma",
+      "name": "Myriad Gamma",
+      "members": [
+        "frank",
+        "grace",
+        "heidi"
+      ],
+      "results": [
+        {
+          "ctfSlug": "nahamcon-2024",
+          "ctfName": "NahamCon CTF 2024",
+          "date": "2024-05-23T00:00:00.000Z",
+          "url": "https://ctf.nahamcon.com",
+          "rank": 35,
+          "points": 7800
+        },
+        {
+          "ctfSlug": "picoctf-2024",
+          "ctfName": "picoCTF 2024",
+          "date": "2024-03-15T00:00:00.000Z",
+          "url": "https://picoctf.org",
+          "rank": 78,
+          "points": 2100
+        }
+      ],
+      "totalPoints": 9900,
+      "bestRank": 35,
+      "ctfCount": 2,
+      "avgRank": 56.5
+    },
+    "Myriad Delta": {
+      "id": "delta",
+      "name": "Myriad Delta",
+      "members": [
+        "ivan",
+        "judy"
+      ],
+      "results": [
+        {
+          "ctfSlug": "nahamcon-2024",
+          "ctfName": "NahamCon CTF 2024",
+          "date": "2024-05-23T00:00:00.000Z",
+          "url": "https://ctf.nahamcon.com",
+          "rank": 120,
+          "points": 3500
+        }
+      ],
+      "totalPoints": 3500,
+      "bestRank": 120,
+      "ctfCount": 1,
+      "avgRank": 120
+    },
+    "Myriad Beta": {
+      "id": "beta",
+      "name": "Myriad Beta",
+      "members": [
+        "dave",
+        "eve"
+      ],
+      "results": [
+        {
+          "ctfSlug": "picoctf-2024",
+          "ctfName": "picoCTF 2024",
+          "date": "2024-03-15T00:00:00.000Z",
+          "url": "https://picoctf.org",
+          "rank": 42,
+          "points": 3200
+        },
+        {
+          "ctfSlug": "htb-cyber-apocalypse-2024",
+          "ctfName": "HTB Cyber Apocalypse 2024",
+          "date": "2024-03-09T00:00:00.000Z",
+          "url": "https://ctf.hackthebox.com",
+          "rank": 56,
+          "points": 6400
+        }
+      ],
+      "totalPoints": 9600,
+      "bestRank": 42,
+      "ctfCount": 2,
+      "avgRank": 49
+    }
+  },
+  "lastUpdated": "2026-02-01T19:11:58.631Z"
+}

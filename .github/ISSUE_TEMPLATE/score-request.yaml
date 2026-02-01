@@ -1,0 +1,81 @@
+name: Log CTF Score
+description: Request a CTF score to be added to the leaderboard
+title: "[Score] "
+labels: ["score-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request a CTF score be added to the dashboard.
+        An admin will review and add the score to the appropriate YAML file.
+
+  - type: input
+    id: ctf_name
+    attributes:
+      label: CTF Name
+      description: Full name of the CTF competition
+      placeholder: "e.g., picoCTF 2024"
+    validations:
+      required: true
+
+  - type: input
+    id: ctf_date
+    attributes:
+      label: CTF Date
+      description: Date the CTF ended (YYYY-MM-DD)
+      placeholder: "2024-03-15"
+    validations:
+      required: true
+
+  - type: input
+    id: ctf_url
+    attributes:
+      label: CTF URL
+      description: Link to the CTF website (optional)
+      placeholder: "https://picoctf.org"
+    validations:
+      required: false
+
+  - type: input
+    id: team
+    attributes:
+      label: Team Name
+      description: Name of the team (must match existing team name)
+      placeholder: "Myriad Alpha"
+    validations:
+      required: true
+
+  - type: input
+    id: rank
+    attributes:
+      label: Final Rank
+      description: Team's final ranking in the CTF
+      placeholder: "15"
+    validations:
+      required: true
+
+  - type: input
+    id: points
+    attributes:
+      label: Points Scored
+      description: Total points earned by the team
+      placeholder: "4500"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Proof/Evidence
+      description: Link to scoreboard screenshot or CTF results page
+      placeholder: "https://ctftime.org/event/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Any other relevant information
+    validations:
+      required: false

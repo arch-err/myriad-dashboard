@@ -1,0 +1,23 @@
+teams:
+  - id: alpha
+    name: Myriad Alpha
+    members:
+      - alice
+      - bob
+      - charlie
+  - id: beta
+    name: Myriad Beta
+    members:
+      - dave
+      - eve
+  - id: gamma
+    name: Myriad Gamma
+    members:
+      - frank
+      - grace
+      - heidi
+  - id: delta
+    name: Myriad Delta
+    members:
+      - ivan
+      - judy

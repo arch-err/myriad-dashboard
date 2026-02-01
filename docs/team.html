@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Details - Myriad Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+    <h1 id="team-name">Team</h1>
+    <p class="subtitle" id="team-members"></p>
+  </header>
+
+  <main>
+    <section id="team-stats" class="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="stat-ctfs">-</span>
+        <span class="stat-label">CTFs</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-best-rank">-</span>
+        <span class="stat-label">Best Rank</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-avg-rank">-</span>
+        <span class="stat-label">Avg Rank</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-total-points">-</span>
+        <span class="stat-label">Total Points</span>
+      </div>
+    </section>
+
+    <section id="history-section">
+      <h2>CTF History</h2>
+      <table id="history-table" class="history-table">
+        <thead>
+          <tr>
+            <th>CTF</th>
+            <th>Date</th>
+            <th>Rank</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <!-- Results loaded dynamically -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated: <span id="last-updated">-</span></p>
+    <p><a href="https://github.com">View on GitHub</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

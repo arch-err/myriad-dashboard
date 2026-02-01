@@ -1,0 +1,11 @@
+{
+  "name": "myriad-dashboard",
+  "version": "1.0.0",
+  "description": "Git-powered CTF scoreboard tracking team performance",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

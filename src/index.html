@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Myriad Dashboard - CTF Scoreboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Myriad Dashboard</h1>
+    <p class="subtitle">Team CTF Performance Tracker</p>
+  </header>
+
+  <main>
+    <section id="stats" class="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="total-teams">-</span>
+        <span class="stat-label">Teams</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="total-ctfs">-</span>
+        <span class="stat-label">CTFs</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="total-points">-</span>
+        <span class="stat-label">Total Points</span>
+      </div>
+    </section>
+
+    <section id="teams-section">
+      <h2>Teams</h2>
+      <div id="teams-grid" class="teams-grid">
+        <!-- Teams loaded dynamically -->
+      </div>
+    </section>
+
+    <section id="recent-section">
+      <h2>Recent Results</h2>
+      <div id="recent-results" class="recent-results">
+        <!-- Recent results loaded dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated: <span id="last-updated">-</span></p>
+    <p><a href="https://github.com">View on GitHub</a></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
