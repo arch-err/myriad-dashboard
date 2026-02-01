@@ -34,14 +34,14 @@ body {
 header {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
-  padding: 2rem;
+  padding: 1rem 2rem;
   text-align: center;
   position: relative;
 }
 
 header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  margin: 0;
 }
 
 .subtitle {
@@ -62,11 +62,32 @@ header h1 {
   text-decoration: underline;
 }
 
+/* Header Logo */
+.header-logo {
+  position: absolute;
+  top: 50%;
+  left: 1.5rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.header-logo img {
+  height: 56px;
+  width: auto;
+  transition: transform 0.2s;
+}
+
+.header-logo:hover img {
+  transform: scale(1.05);
+}
+
 /* Header Action Button */
 .header-action {
   position: absolute;
-  top: 1.5rem;
+  top: 50%;
   right: 1.5rem;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -595,6 +616,15 @@ footer p {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .header-logo {
+    position: static;
+    margin-bottom: 1rem;
+  }
+
+  .header-logo img {
+    height: 40px;
+  }
+
   .header-action {
     position: static;
     margin-bottom: 1rem;
