@@ -4,80 +4,394 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Myriad Scoreboard - CTF Scoreboard</title>
-  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    // Prevent theme flash
+    (function() {
+      const theme = localStorage.getItem('myriad-theme') || 'default';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: {
+              primary: 'var(--bg-primary)',
+              secondary: 'var(--bg-secondary)',
+              tertiary: 'var(--bg-tertiary)'
+            },
+            text: {
+              primary: 'var(--text-primary)',
+              secondary: 'var(--text-secondary)'
+            },
+            accent: {
+              DEFAULT: 'var(--accent)',
+              hover: 'var(--accent-hover)'
+            },
+            success: 'var(--success)',
+            warning: 'var(--warning)',
+            border: 'var(--border)',
+            gold: 'var(--gold)',
+            silver: 'var(--silver)',
+            bronze: 'var(--bronze)'
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    :root {
+      --gold: #ffd700;
+      --silver: #c0c0c0;
+      --bronze: #cd7f32;
+    }
+
+    :root, [data-theme="default"] {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79b8ff;
+      --success: #3fb950;
+      --warning: #d29922;
+      --border: #30363d;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="gruvbox"] {
+      --bg-primary: #282828;
+      --bg-secondary: #3c3836;
+      --bg-tertiary: #504945;
+      --text-primary: #ebdbb2;
+      --text-secondary: #a89984;
+      --accent: #d79921;
+      --accent-hover: #fabd2f;
+      --success: #98971a;
+      --warning: #d65d0e;
+      --border: #504945;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="dracula"] {
+      --bg-primary: #282a36;
+      --bg-secondary: #44475a;
+      --bg-tertiary: #6272a4;
+      --text-primary: #f8f8f2;
+      --text-secondary: #bd93f9;
+      --accent: #ff79c6;
+      --accent-hover: #ff92d0;
+      --success: #50fa7b;
+      --warning: #ffb86c;
+      --border: #6272a4;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="solarized"] {
+      --bg-primary: #002b36;
+      --bg-secondary: #073642;
+      --bg-tertiary: #586e75;
+      --text-primary: #839496;
+      --text-secondary: #657b83;
+      --accent: #268bd2;
+      --accent-hover: #2aa198;
+      --success: #859900;
+      --warning: #b58900;
+      --border: #073642;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="nord"] {
+      --bg-primary: #2e3440;
+      --bg-secondary: #3b4252;
+      --bg-tertiary: #434c5e;
+      --text-primary: #eceff4;
+      --text-secondary: #d8dee9;
+      --accent: #88c0d0;
+      --accent-hover: #8fbcbb;
+      --success: #a3be8c;
+      --warning: #ebcb8b;
+      --border: #4c566a;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="catppuccin"] {
+      --bg-primary: #1e1e2e;
+      --bg-secondary: #313244;
+      --bg-tertiary: #45475a;
+      --text-primary: #cdd6f4;
+      --text-secondary: #a6adc8;
+      --accent: #cba6f7;
+      --accent-hover: #f5c2e7;
+      --success: #a6e3a1;
+      --warning: #f9e2af;
+      --border: #45475a;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="matrix"] {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #0f0f0f;
+      --bg-tertiary: #1a1a1a;
+      --text-primary: #00ff00;
+      --text-secondary: #00cc00;
+      --accent: #00ff00;
+      --accent-hover: #33ff33;
+      --success: #00ff00;
+      --warning: #ccff00;
+      --border: #003300;
+      --shadow: rgba(0, 255, 0, 0.1);
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <a href="index.html" class="header-logo" title="Home">
-      <img src="assets/logo.png" alt="Myriad Logo">
+<body
+  x-data="dashboard()"
+  x-init="init()"
+  :data-theme="theme"
+  class="bg-bg-primary text-text-primary min-h-screen flex flex-col font-sans leading-relaxed"
+>
+  <header class="bg-bg-secondary border-b border-border py-4 px-8 text-center relative">
+    <a href="index.html" class="absolute left-6 top-1/2 -translate-y-1/2 flex items-center" title="Home">
+      <img src="assets/logo.png" alt="Myriad Logo" class="h-14 w-auto transition-transform hover:scale-105">
     </a>
-    <label class="theme-picker">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+
+    <label class="absolute right-56 top-1/2 -translate-y-1/2 inline-flex items-center gap-2 px-4 py-2 bg-accent text-bg-primary rounded-md text-sm font-semibold cursor-pointer transition-all hover:bg-accent-hover hover:scale-105">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 flex-shrink-0">
         <path fill-rule="evenodd" d="M20.599 1.5c-.376 0-.743.111-1.055.32l-5.08 3.385a18.747 18.747 0 0 0-3.471 2.987 10.04 10.04 0 0 1 4.815 4.815 18.748 18.748 0 0 0 2.987-3.472l3.386-5.079A1.902 1.902 0 0 0 20.599 1.5Zm-8.3 14.025a18.76 18.76 0 0 0 1.896-1.207 8.026 8.026 0 0 0-4.513-4.513A18.75 18.75 0 0 0 8.475 11.7l-.278.5a5.26 5.26 0 0 1 3.601 3.602l.5-.278ZM6.75 13.5A3.75 3.75 0 0 0 3 17.25a1.5 1.5 0 0 1-1.601 1.497.75.75 0 0 0-.7 1.123 5.25 5.25 0 0 0 9.8-2.62 3.75 3.75 0 0 0-3.75-3.75Z" clip-rule="evenodd" />
       </svg>
-      <select id="theme-select">
-        <option value="default">Default</option>
-        <option value="gruvbox">Gruvbox</option>
-        <option value="dracula">Dracula</option>
-        <option value="solarized">Solarized</option>
-        <option value="nord">Nord</option>
-        <option value="catppuccin">Catppuccin</option>
-        <option value="matrix">Matrix</option>
+      <select
+        x-model="theme"
+        @change="saveTheme()"
+        class="appearance-none bg-transparent text-inherit border-none font-inherit text-sm font-semibold cursor-pointer outline-none"
+      >
+        <template x-for="t in themes" :key="t.value">
+          <option :value="t.value" x-text="t.name" class="bg-bg-secondary text-text-primary"></option>
+        </template>
       </select>
     </label>
-    <a href="submit.html" class="header-action" title="Register Score">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+
+    <a href="submit.html" class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2 px-4 py-2 bg-accent text-bg-primary no-underline rounded-md text-sm font-semibold transition-all hover:bg-accent-hover hover:scale-105" title="Register Score">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 flex-shrink-0">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
-      <span>Register Score</span>
+      <span class="max-md:hidden">Register Score</span>
     </a>
-    <h1>Myriad Scoreboard</h1>
+
+    <h1 class="text-3xl font-bold m-0">Myriad Scoreboard</h1>
   </header>
 
-  <main>
-    <section id="leaderboard-section">
-      <h2>Overall Leaderboard</h2>
-      <p class="section-desc">Ranked by total score from internal team placements (higher is better)</p>
-      <div id="leaderboard" class="leaderboard">
-        <!-- Leaderboard loaded dynamically -->
-      </div>
-    </section>
+  <main class="flex-1 w-full max-w-6xl mx-auto p-8">
+    <!-- Loading State -->
+    <div x-show="loading" class="text-center py-12 text-text-secondary">Loading...</div>
 
-    <section id="stats" class="stats-bar">
-      <div class="stat">
-        <span class="stat-value" id="total-teams">-</span>
-        <span class="stat-label">Teams</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value" id="total-ctfs">-</span>
-        <span class="stat-label">CTFs</span>
-      </div>
-      <div class="stat">
-        <span class="stat-value" id="total-points">-</span>
-        <span class="stat-label">Total Points</span>
-      </div>
-    </section>
+    <!-- Error State -->
+    <div x-show="error" x-cloak class="text-center p-8 text-red-500 bg-red-500/10 border border-red-500/30 rounded-lg" x-text="error"></div>
 
-    <section id="teams-section">
-      <h2>Teams</h2>
-      <div id="teams-grid" class="teams-grid">
-        <!-- Teams loaded dynamically -->
-      </div>
-    </section>
+    <!-- Content -->
+    <template x-if="data && !loading">
+      <div>
+        <!-- Leaderboard Section -->
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-border">Overall Leaderboard</h2>
+          <p class="text-text-secondary text-sm -mt-4 mb-6">Ranked by total score from internal team placements (higher is better)</p>
+          <div class="flex flex-col gap-2">
+            <template x-for="entry in data.leaderboard" :key="entry.id">
+              <a
+                :href="'team.html?team=' + encodeURIComponent(entry.id)"
+                class="flex items-center gap-6 bg-bg-secondary border-2 rounded-lg p-4 no-underline text-inherit transition-all hover:translate-x-1 hover:shadow-lg hover:border-accent max-md:flex-wrap max-md:gap-4 max-md:p-4"
+                :class="getRankClass(entry.rank)"
+              >
+                <div
+                  class="text-2xl font-bold min-w-12 text-center max-md:text-xl max-md:min-w-10"
+                  :class="getRankTextClass(entry.rank)"
+                  x-text="'#' + entry.rank"
+                ></div>
+                <div class="flex-1 text-xl font-semibold max-md:flex-[1_1_100%] max-md:order-first max-md:text-lg" x-text="entry.name"></div>
+                <div class="text-center min-w-24">
+                  <span class="block text-xl font-bold text-accent" x-text="formatScore(entry.overallScore)"></span>
+                  <span class="text-xs text-text-secondary uppercase">avg relative</span>
+                </div>
+                <div class="flex gap-6 text-text-secondary text-sm max-md:flex-1 max-md:gap-4 max-md:text-xs">
+                  <span x-text="entry.ctfCount + ' CTFs'"></span>
+                  <span x-text="formatNumber(entry.totalPoints) + ' pts'"></span>
+                </div>
+              </a>
+            </template>
+          </div>
+        </section>
 
-    <section id="recent-section">
-      <h2>Recent Results</h2>
-      <div id="recent-results" class="recent-results">
-        <!-- Recent results loaded dynamically -->
+        <!-- Stats Bar -->
+        <section class="flex justify-center gap-12 bg-bg-secondary border border-border rounded-lg p-6 mb-8 max-md:flex-wrap max-md:gap-6">
+          <div class="text-center max-md:flex-1 max-md:min-w-20">
+            <span class="block text-4xl font-bold text-accent" x-text="Object.keys(data.teams).length"></span>
+            <span class="text-sm text-text-secondary uppercase tracking-wide">Teams</span>
+          </div>
+          <div class="text-center max-md:flex-1 max-md:min-w-20">
+            <span class="block text-4xl font-bold text-accent" x-text="data.ctfs.length"></span>
+            <span class="text-sm text-text-secondary uppercase tracking-wide">CTFs</span>
+          </div>
+          <div class="text-center max-md:flex-1 max-md:min-w-20">
+            <span class="block text-4xl font-bold text-accent" x-text="formatNumber(totalPoints)"></span>
+            <span class="text-sm text-text-secondary uppercase tracking-wide">Total Points</span>
+          </div>
+        </section>
+
+        <!-- Teams Section -->
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-border">Teams</h2>
+          <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+            <template x-for="team in sortedTeams" :key="team.id">
+              <a
+                :href="'team.html?team=' + encodeURIComponent(team.id)"
+                class="bg-bg-secondary border border-border rounded-lg p-6 no-underline text-inherit block transition-all hover:-translate-y-0.5 hover:shadow-lg hover:border-accent cursor-pointer"
+              >
+                <h3 class="text-xl font-bold mb-4" x-text="team.name"></h3>
+                <div class="flex justify-between mb-4">
+                  <div class="text-center">
+                    <span class="block text-xl font-bold text-accent" x-text="team.ctfCount"></span>
+                    <span class="text-xs text-text-secondary uppercase">CTFs</span>
+                  </div>
+                  <div class="text-center">
+                    <span class="block text-xl font-bold text-accent" x-text="'#' + team.bestRank"></span>
+                    <span class="text-xs text-text-secondary uppercase">Best</span>
+                  </div>
+                  <div class="text-center">
+                    <span class="block text-xl font-bold text-accent" x-text="formatNumber(team.totalPoints)"></span>
+                    <span class="text-xs text-text-secondary uppercase">Points</span>
+                  </div>
+                </div>
+                <template x-if="team.results && team.results[0]">
+                  <div class="text-sm text-text-secondary border-t border-border pt-4">
+                    Latest: <strong class="text-text-primary" x-text="team.results[0].ctfName"></strong> - <span x-text="'#' + team.results[0].rank"></span>
+                  </div>
+                </template>
+              </a>
+            </template>
+          </div>
+        </section>
+
+        <!-- Recent Results Section -->
+        <section class="mb-12">
+          <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-border">Recent Results</h2>
+          <div class="flex flex-col gap-4">
+            <template x-for="ctf in recentCtfs" :key="ctf.name + ctf.date">
+              <div class="bg-bg-secondary border border-border rounded-lg p-4 px-6 flex justify-between items-center flex-wrap gap-4 max-md:flex-col max-md:items-start">
+                <div class="flex-1 min-w-52">
+                  <div class="font-semibold">
+                    <template x-if="ctf.url">
+                      <a :href="ctf.url" target="_blank" class="text-inherit no-underline hover:text-accent" x-text="ctf.name"></a>
+                    </template>
+                    <template x-if="!ctf.url">
+                      <span x-text="ctf.name"></span>
+                    </template>
+                  </div>
+                  <div class="text-sm text-text-secondary" x-text="formatDate(ctf.date)"></div>
+                </div>
+                <div class="flex gap-6 flex-wrap">
+                  <template x-for="result in getTopResults(ctf)" :key="result.team">
+                    <div class="text-center">
+                      <div class="text-sm text-text-secondary" x-text="result.team"></div>
+                      <div class="font-bold text-success" x-text="'#' + result.rank"></div>
+                      <div class="text-sm text-text-secondary" x-text="formatNumber(result.points) + ' pts'"></div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </section>
       </div>
-    </section>
+    </template>
   </main>
 
-  <footer>
-    <p>Last updated: <span id="last-updated">-</span></p>
-    <p><a href="https://github.com/arch-err/myriad-scoreboard">View on GitHub</a></p>
+  <footer class="bg-bg-secondary border-t border-border py-8 text-center text-text-secondary text-sm">
+    <p class="my-2">Last updated: <span x-text="data ? formatDate(data.lastUpdated) : '-'"></span></p>
+    <p class="my-2"><a href="https://github.com/arch-err/myriad-scoreboard" class="text-accent no-underline hover:underline">View on GitHub</a></p>
   </footer>
 
-  <script src="app.js"></script>
+  <script>
+    function dashboard() {
+      return {
+        data: null,
+        loading: true,
+        error: null,
+        theme: localStorage.getItem('myriad-theme') || 'default',
+        themes: [
+          { value: 'default', name: 'Default' },
+          { value: 'gruvbox', name: 'Gruvbox' },
+          { value: 'dracula', name: 'Dracula' },
+          { value: 'solarized', name: 'Solarized' },
+          { value: 'nord', name: 'Nord' },
+          { value: 'catppuccin', name: 'Catppuccin' },
+          { value: 'matrix', name: 'Matrix' }
+        ],
+
+        async init() {
+          try {
+            const res = await fetch('data.json');
+            if (!res.ok) throw new Error('Failed to load data');
+            this.data = await res.json();
+          } catch (e) {
+            this.error = 'Failed to load data: ' + e.message;
+          } finally {
+            this.loading = false;
+          }
+        },
+
+        saveTheme() {
+          localStorage.setItem('myriad-theme', this.theme);
+        },
+
+        get totalPoints() {
+          if (!this.data) return 0;
+          return Object.values(this.data.teams).reduce((sum, t) => sum + t.totalPoints, 0);
+        },
+
+        get sortedTeams() {
+          if (!this.data) return [];
+          return Object.values(this.data.teams).sort((a, b) => a.bestRank - b.bestRank);
+        },
+
+        get recentCtfs() {
+          if (!this.data) return [];
+          return this.data.ctfs.slice(0, 5);
+        },
+
+        getTopResults(ctf) {
+          return ctf.results.sort((a, b) => a.rank - b.rank).slice(0, 3);
+        },
+
+        formatDate(dateStr) {
+          const date = new Date(dateStr);
+          return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        },
+
+        formatNumber(num) {
+          return num.toLocaleString();
+        },
+
+        formatScore(score) {
+          return score.toFixed(3);
+        },
+
+        getRankClass(rank) {
+          if (rank === 1) return 'border-gold bg-gradient-to-r from-[rgba(255,215,0,0.1)] to-bg-secondary';
+          if (rank === 2) return 'border-silver bg-gradient-to-r from-[rgba(192,192,192,0.1)] to-bg-secondary';
+          if (rank === 3) return 'border-bronze bg-gradient-to-r from-[rgba(205,127,50,0.1)] to-bg-secondary';
+          return 'border-border';
+        },
+
+        getRankTextClass(rank) {
+          if (rank === 1) return 'text-gold';
+          if (rank === 2) return 'text-silver';
+          if (rank === 3) return 'text-bronze';
+          return '';
+        }
+      }
+    }
+  </script>
 </body>
 </html>

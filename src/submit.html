@@ -4,53 +4,201 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register Score - Myriad Scoreboard</title>
-  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    // Prevent theme flash
+    (function() {
+      const theme = localStorage.getItem('myriad-theme') || 'default';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: {
+              primary: 'var(--bg-primary)',
+              secondary: 'var(--bg-secondary)',
+              tertiary: 'var(--bg-tertiary)'
+            },
+            text: {
+              primary: 'var(--text-primary)',
+              secondary: 'var(--text-secondary)'
+            },
+            accent: {
+              DEFAULT: 'var(--accent)',
+              hover: 'var(--accent-hover)'
+            },
+            success: 'var(--success)',
+            warning: 'var(--warning)',
+            border: 'var(--border)',
+            gold: 'var(--gold)',
+            silver: 'var(--silver)',
+            bronze: 'var(--bronze)'
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    :root {
+      --gold: #ffd700;
+      --silver: #c0c0c0;
+      --bronze: #cd7f32;
+    }
+
+    :root, [data-theme="default"] {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79b8ff;
+      --success: #3fb950;
+      --warning: #d29922;
+      --border: #30363d;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="gruvbox"] {
+      --bg-primary: #282828;
+      --bg-secondary: #3c3836;
+      --bg-tertiary: #504945;
+      --text-primary: #ebdbb2;
+      --text-secondary: #a89984;
+      --accent: #d79921;
+      --accent-hover: #fabd2f;
+      --success: #98971a;
+      --warning: #d65d0e;
+      --border: #504945;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="dracula"] {
+      --bg-primary: #282a36;
+      --bg-secondary: #44475a;
+      --bg-tertiary: #6272a4;
+      --text-primary: #f8f8f2;
+      --text-secondary: #bd93f9;
+      --accent: #ff79c6;
+      --accent-hover: #ff92d0;
+      --success: #50fa7b;
+      --warning: #ffb86c;
+      --border: #6272a4;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="solarized"] {
+      --bg-primary: #002b36;
+      --bg-secondary: #073642;
+      --bg-tertiary: #586e75;
+      --text-primary: #839496;
+      --text-secondary: #657b83;
+      --accent: #268bd2;
+      --accent-hover: #2aa198;
+      --success: #859900;
+      --warning: #b58900;
+      --border: #073642;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="nord"] {
+      --bg-primary: #2e3440;
+      --bg-secondary: #3b4252;
+      --bg-tertiary: #434c5e;
+      --text-primary: #eceff4;
+      --text-secondary: #d8dee9;
+      --accent: #88c0d0;
+      --accent-hover: #8fbcbb;
+      --success: #a3be8c;
+      --warning: #ebcb8b;
+      --border: #4c566a;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="catppuccin"] {
+      --bg-primary: #1e1e2e;
+      --bg-secondary: #313244;
+      --bg-tertiary: #45475a;
+      --text-primary: #cdd6f4;
+      --text-secondary: #a6adc8;
+      --accent: #cba6f7;
+      --accent-hover: #f5c2e7;
+      --success: #a6e3a1;
+      --warning: #f9e2af;
+      --border: #45475a;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="matrix"] {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #0f0f0f;
+      --bg-tertiary: #1a1a1a;
+      --text-primary: #00ff00;
+      --text-secondary: #00cc00;
+      --accent: #00ff00;
+      --accent-hover: #33ff33;
+      --success: #00ff00;
+      --warning: #ccff00;
+      --border: #003300;
+      --shadow: rgba(0, 255, 0, 0.1);
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <a href="index.html" class="header-logo" title="Home">
-      <img src="assets/logo.png" alt="Myriad Logo">
+<body
+  x-data="submitPage()"
+  :data-theme="theme"
+  class="bg-bg-primary text-text-primary min-h-screen flex flex-col font-sans leading-relaxed"
+>
+  <header class="bg-bg-secondary border-b border-border py-4 px-8 text-center relative">
+    <a href="index.html" class="absolute left-6 top-1/2 -translate-y-1/2 flex items-center" title="Home">
+      <img src="assets/logo.png" alt="Myriad Logo" class="h-14 w-auto transition-transform hover:scale-105">
     </a>
-    <label class="theme-picker">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+
+    <label class="absolute right-6 top-1/2 -translate-y-1/2 inline-flex items-center gap-2 px-4 py-2 bg-accent text-bg-primary rounded-md text-sm font-semibold cursor-pointer transition-all hover:bg-accent-hover hover:scale-105 max-md:static max-md:mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 flex-shrink-0">
         <path fill-rule="evenodd" d="M20.599 1.5c-.376 0-.743.111-1.055.32l-5.08 3.385a18.747 18.747 0 0 0-3.471 2.987 10.04 10.04 0 0 1 4.815 4.815 18.748 18.748 0 0 0 2.987-3.472l3.386-5.079A1.902 1.902 0 0 0 20.599 1.5Zm-8.3 14.025a18.76 18.76 0 0 0 1.896-1.207 8.026 8.026 0 0 0-4.513-4.513A18.75 18.75 0 0 0 8.475 11.7l-.278.5a5.26 5.26 0 0 1 3.601 3.602l.5-.278ZM6.75 13.5A3.75 3.75 0 0 0 3 17.25a1.5 1.5 0 0 1-1.601 1.497.75.75 0 0 0-.7 1.123 5.25 5.25 0 0 0 9.8-2.62 3.75 3.75 0 0 0-3.75-3.75Z" clip-rule="evenodd" />
       </svg>
-      <select id="theme-select">
-        <option value="default">Default</option>
-        <option value="gruvbox">Gruvbox</option>
-        <option value="dracula">Dracula</option>
-        <option value="solarized">Solarized</option>
-        <option value="nord">Nord</option>
-        <option value="catppuccin">Catppuccin</option>
-        <option value="matrix">Matrix</option>
+      <select
+        x-model="theme"
+        @change="saveTheme()"
+        class="appearance-none bg-transparent text-inherit border-none font-inherit text-sm font-semibold cursor-pointer outline-none"
+      >
+        <template x-for="t in themes" :key="t.value">
+          <option :value="t.value" x-text="t.name" class="bg-bg-secondary text-text-primary"></option>
+        </template>
       </select>
     </label>
-    <a href="index.html" class="back-link">&larr; Back to Scoreboard</a>
-    <h1>Register Team Score</h1>
+
+    <a href="index.html" class="inline-block text-accent no-underline mb-4 text-sm hover:text-accent-hover hover:underline">&larr; Back to Scoreboard</a>
+    <h1 class="text-3xl font-bold m-0">Register Team Score</h1>
   </header>
 
-  <main>
-    <section class="docs-section">
-      <h2>Option 1: Pull Request (Recommended)</h2>
-      <p>This is the preferred method for team members who have GitHub access.</p>
+  <main class="flex-1 w-full max-w-6xl mx-auto p-8">
+    <!-- Option 1: Pull Request -->
+    <section class="bg-bg-secondary border border-border rounded-lg p-8 mb-8 max-md:p-5">
+      <h2 class="text-xl font-bold mb-4 mt-0">Option 1: Pull Request (Recommended)</h2>
+      <p class="mb-4 text-text-secondary">This is the preferred method for team members who have GitHub access.</p>
 
-      <a href="https://github.com/arch-err/myriad-scoreboard/fork" class="btn btn-primary" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20">
+      <a href="https://github.com/arch-err/myriad-scoreboard/fork" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary no-underline rounded-md font-semibold transition-all hover:bg-accent-hover hover:-translate-y-px" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
           <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
         </svg>
         Fork Repository
       </a>
 
-      <h3>Adding a New CTF Result</h3>
-      <ol>
-        <li><strong>Fork the repository</strong> using the button above (if you don't have write access)</li>
-        <li><strong>Create or edit a CTF file</strong> in the <code>ctfs/</code> directory</li>
+      <h3 class="text-lg font-semibold mt-6 mb-3">Adding a New CTF Result</h3>
+      <ol class="mb-4 pl-6 text-text-secondary list-decimal">
+        <li class="mb-2"><strong class="text-text-primary">Fork the repository</strong> using the button above (if you don't have write access)</li>
+        <li class="mb-2"><strong class="text-text-primary">Create or edit a CTF file</strong> in the <code class="bg-bg-tertiary px-1.5 py-0.5 rounded font-mono text-sm text-accent">ctfs/</code> directory</li>
       </ol>
 
-      <p>File naming: <code>ctfs/&lt;ctf-slug&gt;.yaml</code></p>
+      <p class="mb-4 text-text-secondary">File naming: <code class="bg-bg-tertiary px-1.5 py-0.5 rounded font-mono text-sm text-accent">ctfs/&lt;ctf-slug&gt;.yaml</code></p>
 
-      <div class="code-block">
-        <pre><code>name: picoCTF 2024
+      <div class="bg-bg-primary border border-border rounded-md p-4 my-4 overflow-x-auto">
+        <pre class="m-0"><code class="text-text-primary font-mono text-sm leading-relaxed">name: picoCTF 2024
 date: 2024-03-15
 url: https://picoctf.org    # optional
 results:
@@ -62,13 +210,13 @@ results:
     points: 3200</code></pre>
       </div>
 
-      <p>Then <strong>submit a Pull Request</strong> with your changes.</p>
+      <p class="mb-4 text-text-secondary">Then <strong class="text-text-primary">submit a Pull Request</strong> with your changes.</p>
 
-      <h3>Adding a New Team</h3>
-      <p>If your team isn't registered yet, edit <code>teams/teams.yaml</code>:</p>
+      <h3 class="text-lg font-semibold mt-6 mb-3">Adding a New Team</h3>
+      <p class="mb-4 text-text-secondary">If your team isn't registered yet, edit <code class="bg-bg-tertiary px-1.5 py-0.5 rounded font-mono text-sm text-accent">teams/teams.yaml</code>:</p>
 
-      <div class="code-block">
-        <pre><code>teams:
+      <div class="bg-bg-primary border border-border rounded-md p-4 my-4 overflow-x-auto">
+        <pre class="m-0"><code class="text-text-primary font-mono text-sm leading-relaxed">teams:
   - id: your-team-id
     name: Your Team Name
     members:
@@ -77,77 +225,101 @@ results:
       </div>
     </section>
 
-    <section class="docs-section">
-      <h2>Option 2: Issue Request</h2>
-      <p>For those without GitHub access or who prefer not to make direct edits.</p>
+    <!-- Option 2: Issue Request -->
+    <section class="bg-bg-secondary border border-border rounded-lg p-8 mb-8 max-md:p-5">
+      <h2 class="text-xl font-bold mb-4 mt-0">Option 2: Issue Request</h2>
+      <p class="mb-4 text-text-secondary">For those without GitHub access or who prefer not to make direct edits.</p>
 
-      <a href="https://github.com/arch-err/myriad-scoreboard/issues/new?template=score-request.yaml" class="btn btn-primary" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+      <a href="https://github.com/arch-err/myriad-scoreboard/issues/new?template=score-request.yaml" class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary no-underline rounded-md font-semibold transition-all hover:bg-accent-hover hover:-translate-y-px" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
           <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
         </svg>
         Open Score Request Issue
       </a>
 
-      <h3>Required Information</h3>
-      <ul>
-        <li><strong>CTF Name:</strong> Full name of the competition</li>
-        <li><strong>CTF Date:</strong> When the CTF ended (YYYY-MM-DD)</li>
-        <li><strong>Team Name:</strong> Must match an existing team name exactly</li>
-        <li><strong>Final Rank:</strong> Your team's final placement</li>
-        <li><strong>Points:</strong> Total points scored</li>
+      <h3 class="text-lg font-semibold mt-6 mb-3">Required Information</h3>
+      <ul class="mb-4 pl-6 text-text-secondary list-disc">
+        <li class="mb-2"><strong class="text-text-primary">CTF Name:</strong> Full name of the competition</li>
+        <li class="mb-2"><strong class="text-text-primary">CTF Date:</strong> When the CTF ended (YYYY-MM-DD)</li>
+        <li class="mb-2"><strong class="text-text-primary">Team Name:</strong> Must match an existing team name exactly</li>
+        <li class="mb-2"><strong class="text-text-primary">Final Rank:</strong> Your team's final placement</li>
+        <li class="mb-2"><strong class="text-text-primary">Points:</strong> Total points scored</li>
       </ul>
 
-      <h3>Optional Information</h3>
-      <ul>
-        <li><strong>CTF URL:</strong> Link to the CTF website</li>
-        <li><strong>Proof:</strong> Screenshot or link to official results</li>
+      <h3 class="text-lg font-semibold mt-6 mb-3">Optional Information</h3>
+      <ul class="mb-4 pl-6 text-text-secondary list-disc">
+        <li class="mb-2"><strong class="text-text-primary">CTF URL:</strong> Link to the CTF website</li>
+        <li class="mb-2"><strong class="text-text-primary">Proof:</strong> Screenshot or link to official results</li>
       </ul>
     </section>
 
-    <section class="docs-section">
-      <h2>Score Calculation</h2>
-      <p>The overall leaderboard uses <strong>relative internal placement</strong>:</p>
-      <ul>
-        <li>For each CTF, teams are ranked by their CTF placement</li>
-        <li>Score = 1 - (internal rank / total internal teams)</li>
-        <li>Higher total score = better overall ranking</li>
+    <!-- Score Calculation -->
+    <section class="bg-bg-secondary border border-border rounded-lg p-8 mb-8 max-md:p-5">
+      <h2 class="text-xl font-bold mb-4 mt-0">Score Calculation</h2>
+      <p class="mb-4 text-text-secondary">The overall leaderboard uses <strong class="text-text-primary">relative internal placement</strong>:</p>
+      <ul class="mb-4 pl-6 text-text-secondary list-disc">
+        <li class="mb-2">For each CTF, teams are ranked by their CTF placement</li>
+        <li class="mb-2">Score = 1 - (internal rank / total internal teams)</li>
+        <li class="mb-2">Higher total score = better overall ranking</li>
       </ul>
 
-      <h3>Example</h3>
-      <p>A CTF has 3 internal teams participating:</p>
-      <table class="example-table">
-        <thead>
-          <tr>
-            <th>Team</th>
-            <th>Internal Rank</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Team A (best CTF placement)</td>
-            <td>1st</td>
-            <td>1 - 1/3 = 0.667</td>
-          </tr>
-          <tr>
-            <td>Team B</td>
-            <td>2nd</td>
-            <td>1 - 2/3 = 0.333</td>
-          </tr>
-          <tr>
-            <td>Team C</td>
-            <td>3rd</td>
-            <td>1 - 3/3 = 0.000</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3 class="text-lg font-semibold mt-6 mb-3">Example</h3>
+      <p class="mb-4 text-text-secondary">A CTF has 3 internal teams participating:</p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse mt-4">
+          <thead>
+            <tr>
+              <th class="p-3 px-4 text-left border border-border bg-bg-tertiary text-text-secondary text-sm uppercase">Team</th>
+              <th class="p-3 px-4 text-left border border-border bg-bg-tertiary text-text-secondary text-sm uppercase">Internal Rank</th>
+              <th class="p-3 px-4 text-left border border-border bg-bg-tertiary text-text-secondary text-sm uppercase">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-3 px-4 border border-border">Team A (best CTF placement)</td>
+              <td class="p-3 px-4 border border-border">1st</td>
+              <td class="p-3 px-4 border border-border">1 - 1/3 = 0.667</td>
+            </tr>
+            <tr>
+              <td class="p-3 px-4 border border-border">Team B</td>
+              <td class="p-3 px-4 border border-border">2nd</td>
+              <td class="p-3 px-4 border border-border">1 - 2/3 = 0.333</td>
+            </tr>
+            <tr>
+              <td class="p-3 px-4 border border-border">Team C</td>
+              <td class="p-3 px-4 border border-border">3rd</td>
+              <td class="p-3 px-4 border border-border">1 - 3/3 = 0.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p><a href="https://github.com/arch-err/myriad-scoreboard">View on GitHub</a></p>
+  <footer class="bg-bg-secondary border-t border-border py-8 text-center text-text-secondary text-sm">
+    <p class="my-2"><a href="https://github.com/arch-err/myriad-scoreboard" class="text-accent no-underline hover:underline">View on GitHub</a></p>
   </footer>
 
-  <script src="app.js"></script>
+  <script>
+    function submitPage() {
+      return {
+        theme: localStorage.getItem('myriad-theme') || 'default',
+        themes: [
+          { value: 'default', name: 'Default' },
+          { value: 'gruvbox', name: 'Gruvbox' },
+          { value: 'dracula', name: 'Dracula' },
+          { value: 'solarized', name: 'Solarized' },
+          { value: 'nord', name: 'Nord' },
+          { value: 'catppuccin', name: 'Catppuccin' },
+          { value: 'matrix', name: 'Matrix' }
+        ],
+
+        saveTheme() {
+          localStorage.setItem('myriad-theme', this.theme);
+        }
+      }
+    }
+  </script>
 </body>
 </html>
